@@ -1,11 +1,13 @@
 <?php
 
 date_default_timezone_set("Europe/Dublin");
+$fiat = "EUR";
 $xpub = "1PTCe6VEMAUmQZVw1g984SYTTLji8CpgH7";
 $ratesurl = "https://api.coinbase.com/v2/exchange-rates?currency=BTC";
-$spotpriceurl = "https://api.coinbase.com/v2/prices/BTC-EUR/spot";
+$spotpriceurl = "https://api.coinbase.com/v2/prices/BTC-".$fiat."/spot";
 $balanceurl = "https://blockchain.info/q/addressbalance/" . $xpub;
 $original = 1568.34;
+
 
 $btcArr = array(
 	"original" => $original,
