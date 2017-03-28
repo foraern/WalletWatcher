@@ -1,28 +1,34 @@
 <?php
-
 date_default_timezone_set("Europe/Dublin");
 $fiat = "EUR";
-$xpub = "1PTCe6VEMAUmQZVw1g984SYTTLji8CpgH7";
-$ratesurl = "https://api.coinbase.com/v2/exchange-rates?currency=BTC";
-$spotpriceurl = "https://api.coinbase.com/v2/prices/BTC-".$fiat."/spot";
-$balanceurl = "https://blockchain.info/q/addressbalance/" . $xpub;
-$original = 1568.34;
+$xpub = "1N6peW6TkiyykFetqKv7yLH4sCL3Mmnfsw";
 
+$balanceurl = "https://blockchain.info/rawaddr/" . $xpub;
+$ratesurl = "https://blockchain.info/ticker";
+$fromBTC =  "https://blockchain.info/frombtc";
+
+$original = 0;
+
+$wallet= makeRequest($balanceurl,true);
+$rates=makeRequest($ratesurl,true);
+foreach($wallet['txs'] as $key=>$transaction){
+	foreach($transaction['out'] as $subkey=>$output){
+		if($output['n']==0 && $output['addr']==$xpub){
+			$original+= makeRequest($fromBTC."?currency=".$fiat."&value=".abs($output['value'])."&time=".($transaction['time'] * 1000));
+		}
+	}
+}
 
 $btcArr = array(
 	"original" => $original,
-	"balance" => makeRequest($balanceurl) / 100000000,
-	"originalrate" => round($original / (makeRequest($balanceurl) / 100000000), 2),
-	"total" => (makeRequest($balanceurl) / 100000000) * makeRequest($spotpriceurl)['data']['amount'],
-	"profitperbtc" => makeRequest($spotpriceurl)['data']['amount'] - round($original / (makeRequest($balanceurl) / 100000000), 2),
-	"roi" => ((makeRequest($balanceurl) / 100000000) * makeRequest($spotpriceurl)['data']['amount'] - $original),
-	"rates" => makeRequest($ratesurl),
-	"spotprice" => makeRequest($spotpriceurl)
+	"balance" => $wallet['final_balance']/100000000,
+	"originalrate" => round($original / ($wallet['final_balance']/100000000), 2),
+	"total" => makeRequest($fromBTC."?value=".($wallet['final_balance'])."&currency=".$fiat),
+	"profitperbtc" => makeRequest($fromBTC."?value=".($wallet['final_balance'])."&currency=".$fiat) - round($original / $wallet['final_balance'], 2),
+	"roi" => (makeRequest($fromBTC."?value=".($wallet['final_balance'])."&currency=".$fiat) - $original),
+	"rates" => $rates[$fiat]['sell'],
+	"spotprice" => $rates[$fiat]['15m']
 );
-
-
-
-
 
 if(isset($_GET['format']) && $_GET['format'] == 'json')
 {
@@ -35,7 +41,7 @@ else
 	include('wallet_tpl.php');
 }
 
-function makeRequest($url)
+function makeRequest($url,$json=false)
 {
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $url);
@@ -46,7 +52,12 @@ function makeRequest($url)
 	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 	$result = curl_exec($ch);
 	curl_close($ch);
-	return json_decode($result, true);
+	if($json==true){
+		return json_decode($result, true);
+	}
+	else{
+		return str_replace(",","",$result);
+	}
 }
 
 ?>

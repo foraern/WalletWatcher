@@ -62,19 +62,19 @@
 					</h2>
 					<p>
 						<?php
-						echo "Avg Buy Rate: " . $btcArr['originalrate'] . " ".$fiat."<br />";
+						echo "Avg Buy Rate: " . round($btcArr['originalrate'],2) . " ".$fiat."<br />";
 						?>
 					</p>
 					<p>
 						<?php
-						echo "Avg Profit per BTC: " . $btcArr['profitperbtc'] . " ".$fiat."<br />";
+						echo "Avg Profit per BTC: " . round($btcArr['profitperbtc'],2) . " ".$fiat."<br />";
 						?>
 					</p>
 				</div>
 				<div class="center" style="width:240px;border:1px solid #000;background-color:#fff">
 					<?php
-					echo "Spot Price: " . $btcArr['spotprice']['data']['amount'] . " " . $btcArr['spotprice']['data']['currency'] . "<br />";
-					echo "Rate: " . $btcArr['rates']['data']['rates'][$fiat] . " ".$fiat." <br />";
+					echo "Spot Price: " . $btcArr['spotprice'] . " " . $fiat . "<br />";
+					echo "Rate: " . $btcArr['rates'] . " ".$fiat." <br />";
 					?>
 				</div>
 				<div class="center" style="width:240px;border:1px solid #000;background-color:#fff">
