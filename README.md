@@ -7,6 +7,7 @@ Use ?format=json to output a json array instead of html page
 
 ## Demo
 http://walletwatcher-aracnoweb.rhcloud.com/
+
 http://walletwatcher-aracnoweb.rhcloud.com/?format=json
 
 ## Donations
