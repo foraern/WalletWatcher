@@ -1,7 +1,7 @@
 <?php
 date_default_timezone_set("Europe/Dublin");
 $fiat = "EUR";
-$xpub = "17gWaRXYftSi882fJwE2UrfbxsvdjokvXS";
+$xpub = "1PTCe6VEMAUmQZVw1g984SYTTLji8CpgH7";
 
 $balanceurl = "https://blockchain.info/rawaddr/" . $xpub;
 $ratesurl = "https://blockchain.info/ticker";
@@ -24,10 +24,10 @@ foreach($wallet['txs'] as $key=>$transaction){
 
 $btcArr = array(
 	"original" => $original,
-	"balance" => $wallet['final_balance']/100000000,
-	"originalrate" => round($original / ($wallet['final_balance']/100000000), 2),
+	"balance" => $wallet['final_balance']>0?$wallet['final_balance']/100000000:0,
+	"originalrate" => $wallet['final_balance']>0?round($original / ($wallet['final_balance']/100000000), 2):0,
 	"total" => makeRequest($fromBTC."?value=".($wallet['final_balance'])."&currency=".$fiat),
-	"profitperbtc" => makeRequest($fromBTC."?value=".($wallet['final_balance'])."&currency=".$fiat) - round($original / $wallet['final_balance'], 2),
+	"profitperbtc" => $wallet['final_balance']>0?$rates[$fiat]['sell'] - round($original / ($wallet['final_balance']/100000000), 2):0,
 	"roi" => (makeRequest($fromBTC."?value=".($wallet['final_balance'])."&currency=".$fiat) - $original),
 	"rates" => $rates[$fiat]['sell'],
 	"spotprice" => $rates[$fiat]['15m'],
