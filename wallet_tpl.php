@@ -6,12 +6,47 @@
 		<title><?php
 			echo substr($pl, 0, 1) . ": " . round($btcArr['roi'], 2) . " " . $fiat;
 			?> - Wallet Watcher</title>
+		<link href='http://fonts.googleapis.com/css?family=Droid+Sans:700' rel='stylesheet'>
 		<style>
-			.center h1 {
-				height:37px;
+			h1 {
+				text-align:center;
+				font-family: 'Droid Sans', sans-serif;
+				font-size: 22px;
 			}
-			.center h2 {
-				height:40px;
+
+			.headline1 {
+				position: relative;
+				margin-left: -22px; /* 15px padding + 7px border ribbon shadow*/
+				margin-right: -22px;
+				padding: 15px;
+				background: #e5e5e5;
+				background: linear-gradient(#f5f5f5, #e5e5e5);
+				box-shadow: 0 -1px 0 rgba(255,255,255,.8) inset;
+				text-shadow: 0 1px 0 #fff;
+			}
+
+			.headline1:before,
+			.headline1:after {
+				position: absolute;
+				left: 0;
+				bottom: -6px;
+				content:'';
+				border-top: 6px solid #555;
+				border-left: 6px solid transparent;
+			}
+
+			.headline1:before {
+				border-top: 6px solid #555;
+				border-right: 6px solid transparent;
+				border-left: none;
+				left: auto;
+				right: 0;
+				bottom: -6px;
+			}
+
+			.center h1 {
+				text-align:center;
+
 			}
 			.center {
 				margin: auto;
@@ -23,7 +58,6 @@
 			}
 			.container {
 				width: 90%;
-				height: 200px;
 				margin: auto;
 				padding: 10px;
 			}
@@ -35,6 +69,12 @@
 			}
 			.tx {
 				float:left;
+			}
+			.wallet {
+				height:252px;
+			}
+			.transactions {
+				height:350px;
 			}
 
 			@media screen and (max-width: 400px) {
@@ -56,6 +96,9 @@
 					float: none;  
 					margin-bottom: 20px;
 				}
+				ul {
+					width:150px;
+				}
 			}
 		</style>
 		<script>
@@ -66,38 +109,35 @@
 	</head>
 	<body background="p2pbg.jpg">
 		<div class="container">
+			<h1 class="headline1">Wallet Watcher</h1>
 			<div class="btc">
 				<div class="center" style="">
-					<h1 style="text-align:center">Wallet Watcher</h1>
+					<h1 style="text-align:center">Wallet</h1>
 				</div>
-				<div class="center" style="">
-					<h2>
+				<div class="center wallet" style="">
+					<strong>
 						<?php
 						echo "BTC: " . $btcArr['balance'] . " BTC<br />";
 						?>
-					</h2>
-					<h2>
+					</strong>
+					<strong>
 						<?php
 						echo $fiat . ": " . round($btcArr['total'], 2) . " " . $fiat . "<br />";
 						?>
-					</h2>
-					<p>
+					</strong>
+					<strong>
 						<?php
 						echo "Invested: " . round($btcArr['original'], 2) . " " . $fiat . "<br />";
 						?>
-					</p>
-					<h2 style="color:<?= $color ?>;text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
+					</strong>
+					<strong style="color:<?= $color ?>;">
 						<?php
 						echo $pl . ": " . round($btcArr['roi'], 2) . " " . $fiat . "<br />";
 						?>
-					</h2>
+					</strong>
 					<p>
 						<?php
 						echo "Avg Buy Rate: " . round($btcArr['originalrate'], 2) . " " . $fiat . "<br />";
-						?>
-					</p>
-					<p>
-						<?php
 						echo "Avg Profit per BTC: " . round($btcArr['profitperbtc'], 2) . " " . $fiat . "<br />";
 						?>
 					</p>
@@ -116,7 +156,7 @@
 			</div>
 			<div class="graphs">
 				<div class="center" style="">
-					<h2 style="text-align:center">Graphs</h2>
+					<h1>Graphs</h1>
 				</div>
 				<div class="center" style="">
 					<img src="http://bitcoinity.org/markets/image?span=24h&size=medium&currency=<?= $fiat ?>&exchange=coinbase" alt="bitcoin price chart"/>
@@ -127,9 +167,9 @@
 			</div>
 			<div class="tx">
 				<div class="center" style="">
-					<h2 style="text-align:center">Transactions</h2>
+					<h1>Transactions</h1>
 				</div>
-				<div class="center" style="">
+				<div class="center transactions" style="">
 					<ul>
 						<?php
 						foreach($btcArr['txs'] as $key => $transaction)
