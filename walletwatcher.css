@@ -1,0 +1,95 @@
+h1 {
+	text-align:center;
+	font-family: 'Droid Sans', sans-serif;
+	font-size: 22px;
+}
+
+.headline1 {
+	position: relative;
+	margin-left: -22px; /* 15px padding + 7px border ribbon shadow*/
+	margin-right: -22px;
+	padding: 15px;
+	background: #e5e5e5;
+	background: linear-gradient(#f5f5f5, #e5e5e5);
+	box-shadow: 0 -1px 0 rgba(255,255,255,.8) inset;
+	text-shadow: 0 1px 0 #fff;
+}
+
+.headline1:before,
+.headline1:after {
+	position: absolute;
+	left: 0;
+	bottom: -6px;
+	content:'';
+	border-top: 6px solid #555;
+	border-left: 6px solid transparent;
+}
+
+.headline1:before {
+	border-top: 6px solid #555;
+	border-right: 6px solid transparent;
+	border-left: none;
+	left: auto;
+	right: 0;
+	bottom: -6px;
+}
+
+.center h1 {
+	text-align:center;
+
+}
+.center {
+	margin: auto;
+	width: 50%;
+	padding: 10px;
+	width:350px;
+	border:1px solid #000;
+	background-color:#fff
+}
+.container {
+	width: 90%;
+	margin: auto;
+	padding: 10px;
+}
+.btc {
+	float:left;
+}
+.graphs {
+	float:left;
+}
+.tx {
+	float:left;
+}
+.wallet {
+	height:252px;
+}
+.transactions {
+	height:350px;
+}
+#xpub {
+	width:300px;
+}
+
+@media screen and (max-width: 400px) {
+	.center {
+		width:240px;
+	}
+	.btc { 
+		width: 15%;
+		float: none;  
+		margin-bottom: 20px;
+	}
+	.graphs {
+		width: 15%;
+		float: none;  
+		margin-bottom: 20px;
+	}
+	.tx {
+		width: 15%;
+		float: none;  
+		margin-bottom: 20px;
+	}
+	ul {
+		width:150px;
+	}
+}

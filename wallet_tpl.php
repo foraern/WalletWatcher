@@ -3,113 +3,44 @@
 	<head>
 		<meta name="robots" content="noindex,nofollow"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="UTF-8">
+		<meta name="google" content="notranslate">
+		<meta http-equiv="Content-Language" content="en">
 		<title><?php
 			echo substr($pl, 0, 1) . ": " . round($btcArr['roi'], 2) . " " . $fiat;
 			?> - Wallet Watcher</title>
-		<link href='http://fonts.googleapis.com/css?family=Droid+Sans:700' rel='stylesheet'>
-		<style>
-			h1 {
-				text-align:center;
-				font-family: 'Droid Sans', sans-serif;
-				font-size: 22px;
-			}
-
-			.headline1 {
-				position: relative;
-				margin-left: -22px; /* 15px padding + 7px border ribbon shadow*/
-				margin-right: -22px;
-				padding: 15px;
-				background: #e5e5e5;
-				background: linear-gradient(#f5f5f5, #e5e5e5);
-				box-shadow: 0 -1px 0 rgba(255,255,255,.8) inset;
-				text-shadow: 0 1px 0 #fff;
-			}
-
-			.headline1:before,
-			.headline1:after {
-				position: absolute;
-				left: 0;
-				bottom: -6px;
-				content:'';
-				border-top: 6px solid #555;
-				border-left: 6px solid transparent;
-			}
-
-			.headline1:before {
-				border-top: 6px solid #555;
-				border-right: 6px solid transparent;
-				border-left: none;
-				left: auto;
-				right: 0;
-				bottom: -6px;
-			}
-
-			.center h1 {
-				text-align:center;
-
-			}
-			.center {
-				margin: auto;
-				width: 50%;
-				padding: 10px;
-				width:350px;
-				border:1px solid #000;
-				background-color:#fff
-			}
-			.container {
-				width: 90%;
-				margin: auto;
-				padding: 10px;
-			}
-			.btc {
-				float:left;
-			}
-			.graphs {
-				float:left;
-			}
-			.tx {
-				float:left;
-			}
-			.wallet {
-				height:252px;
-			}
-			.transactions {
-				height:350px;
-			}
-
-			@media screen and (max-width: 400px) {
-				.center {
-					width:240px;
-				}
-				.btc { 
-					width: 15%;
-					float: none;  
-					margin-bottom: 20px;
-				}
-				.graphs {
-					width: 15%;
-					float: none;  
-					margin-bottom: 20px;
-				}
-				.tx {
-					width: 15%;
-					float: none;  
-					margin-bottom: 20px;
-				}
-				ul {
-					width:150px;
-				}
-			}
-		</style>
+		<link href='//fonts.googleapis.com/css?family=Droid+Sans:700' rel='stylesheet'>
+		<link href='walletwatcher.css' rel='stylesheet'>
+		<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 		<script>
-			setTimeout(function () {
-				window.location.reload(1);
-			}, 10000);
+			$(document).ready(function () {
+				$('#autorefresh').click(function () {
+					if ($(this).is(':checked')) {
+						window.location.href = 'index.php?autorefresh=on';
+					} else {
+						window.location.href = 'index.php';
+					}
+				});
+			});
+			<?php
+			if($_REQUEST['autorefresh'] == "on")
+			{
+				echo "setTimeout(function () {
+										window.location.reload(1);
+									}, 10000);";
+			}
+			?>
 		</script>
 	</head>
 	<body background="p2pbg.jpg">
 		<div class="container">
-			<h1 class="headline1">Wallet Watcher</h1>
+			<form action="index.php<?= ($_REQUEST['autorefresh'] == "on" ? "?autorefresh=on" : "") ?>" method="post">
+				<input type="checkbox" name="autorefresh" id="autorefresh" <?= ($_REQUEST['autorefresh'] == "on" ? "checked" : "") ?> /> Auto-refresh
+				<input type="text" name="xpub" id="xpub" placeholder="public key/address" />
+				<input type="submit" />
+			</form>
+			<h1 class="headline1">Wallet Watcher - <?= $xpub ?></h1>
+			
 			<div class="btc">
 				<div class="center" style="">
 					<h1 style="text-align:center">Wallet</h1>

@@ -1,14 +1,22 @@
 <?php
 date_default_timezone_set("Europe/Dublin");
 $fiat = "EUR";
-$xpub = "1PTCe6VEMAUmQZVw1g984SYTTLji8CpgH7";
+if($_POST['xpub']){
+	setcookie("xpub", $_POST['xpub'], time()+3600, '/');
+	$xpub=$_POST['xpub'];
+}
+else{
+	$xpub=$_COOKIE['xpub'];
+}
+$xpub = $xpub!=""?$xpub:"1PTCe6VEMAUmQZVw1g984SYTTLji8CpgH7";
+
 
 $balanceurl = "https://blockchain.info/rawaddr/" . $xpub;
 $ratesurl = "https://blockchain.info/ticker";
 $fromBTC =  "https://blockchain.info/frombtc";
 
 $original = 0;
-
+$wallet['txs']=array();
 $wallet= makeRequest($balanceurl,true);
 $rates=makeRequest($ratesurl,true);
 foreach($wallet['txs'] as $key=>$transaction){
