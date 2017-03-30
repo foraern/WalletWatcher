@@ -8,7 +8,7 @@ if($_POST['xpub']){
 else{
 	$xpub=$_COOKIE['xpub'];
 }
-$xpub = $xpub!=""?$xpub:"1PTCe6VEMAUmQZVw1g984SYTTLji8CpgH7";
+
 
 
 $balanceurl = "https://blockchain.info/rawaddr/" . $xpub;
