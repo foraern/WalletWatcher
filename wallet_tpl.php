@@ -6,12 +6,15 @@
 		<meta charset="UTF-8">
 		<meta name="google" content="notranslate">
 		<meta http-equiv="Content-Language" content="en">
+		<meta http-equiv="X-UA-Compatible" content="chrome=1" />
 		<title><?php
 			echo substr($pl, 0, 1) . ": " . round($btcArr['roi'], 2) . " " . $fiat;
 			?> - Wallet Watcher</title>
 		<link href='//fonts.googleapis.com/css?family=Droid+Sans:700' rel='stylesheet'>
 		<link href='walletwatcher.css' rel='stylesheet'>
 		<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+
+		
 		<script>
 			$(document).ready(function () {
 				$('#autorefresh').click(function () {
@@ -22,25 +25,24 @@
 					}
 				});
 			});
-			<?php
-			if($_REQUEST['autorefresh'] == "on")
-			{
-				echo "setTimeout(function () {
-										window.location.reload(1);
-									}, 30000);";
-			}
-			?>
+<?php
+if(isset($_REQUEST['autorefresh']) && $_REQUEST['autorefresh'] == "on")
+{
+	echo "setTimeout(function () {
+				window.location.reload(1);
+			}, 30000);";
+}
+?>
 		</script>
 	</head>
 	<body background="p2pbg.jpg">
 		<div class="container">
-			<form action="index.php<?= ($_REQUEST['autorefresh'] == "on" ? "?autorefresh=on" : "") ?>" method="post">
-				<input type="checkbox" name="autorefresh" id="autorefresh" <?= ($_REQUEST['autorefresh'] == "on" ? "checked" : "") ?> /> Auto-refresh
+			<form id="bitform" action="index.php<?= (isset($_REQUEST['autorefresh']) && $_REQUEST['autorefresh'] == "on" ? "?autorefresh=on" : "") ?>" method="post">
+				<input type="checkbox" name="autorefresh" id="autorefresh" <?= (isset($_REQUEST['autorefresh']) && $_REQUEST['autorefresh'] == "on" ? "checked" : "") ?> /> Auto-refresh
 				<input type="text" name="xpub" id="xpub" placeholder="public key/address" />
 				<input type="submit" />
 			</form>
 			<h1 class="headline1">Wallet Watcher - <?= $xpub ?></h1>
-			
 			<div class="btc">
 				<div class="center" style="">
 					<h1 style="text-align:center">Wallet</h1>
@@ -103,9 +105,11 @@
 				<div class="center transactions" style="">
 					<ul>
 						<?php
-						foreach($btcArr['txs'] as $key => $transaction)
-						{
-							echo "<li><a href='https://blockchain.info/tx/" . $transaction['hash'] . "' target='_blank'>View Transaction</a> - " . ($transaction['value'] / 100000000) . " BTC</li>";
+						if(is_array($btcArr['txs'])){
+							foreach($btcArr['txs'] as $key => $transaction)
+							{
+								echo "<li><a href='https://blockchain.info/tx/" . $transaction['hash'] . "' target='_blank'>View Transaction</a> - " . ($transaction['value'] / 100000000) . " BTC</li>";
+							}
 						}
 						?>
 					</ul>

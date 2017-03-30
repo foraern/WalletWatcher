@@ -1,11 +1,12 @@
 <?php
 date_default_timezone_set("Europe/Dublin");
 $fiat = "EUR";
-if($_POST['xpub']){
+$xpub = "";
+if(isset($_POST['xpub']) && $_POST['xpub']){
 	setcookie("xpub", $_POST['xpub'], time()+3600, '/');
 	$xpub=$_POST['xpub'];
 }
-else{
+elseif(isset($_COOKIE['xpub'])){
 	$xpub=$_COOKIE['xpub'];
 }
 
@@ -16,20 +17,21 @@ $ratesurl = "https://blockchain.info/ticker";
 $fromBTC =  "https://blockchain.info/frombtc";
 
 $original = 0;
-$wallet['txs']=array();
+$tx=array();
 $wallet= makeRequest($balanceurl,true);
 $rates=makeRequest($ratesurl,true);
-foreach($wallet['txs'] as $key=>$transaction){
-	foreach($transaction['out'] as $subkey=>$output){
-		if($output['addr']==$xpub){
-			if($output['n']==0)$original+= makeRequest($fromBTC."?currency=".$fiat."&value=".abs($output['value'])."&time=".($transaction['time'] * 1000));
-			$output['hash']=$transaction['hash'];
-			$output['time']=$transaction['time'];
-			$tx[]=$output;
+if(is_array($wallet['txs'])){
+	foreach($wallet['txs'] as $key=>$transaction){
+		foreach($transaction['out'] as $subkey=>$output){
+			if($output['addr']==$xpub){
+				if($output['n']==0)$original+= makeRequest($fromBTC."?currency=".$fiat."&value=".abs($output['value'])."&time=".($transaction['time'] * 1000));
+				$output['hash']=$transaction['hash'];
+				$output['time']=$transaction['time'];
+				$tx[]=$output;
+			}
 		}
 	}
 }
-
 $btcArr = array(
 	"original" => $original,
 	"balance" => $wallet['final_balance']>0?$wallet['final_balance']/100000000:0,
