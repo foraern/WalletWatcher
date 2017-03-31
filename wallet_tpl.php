@@ -92,10 +92,10 @@ if(isset($_REQUEST['autorefresh']) && $_REQUEST['autorefresh'] == "on")
 					<h1>Graphs</h1>
 				</div>
 				<div class="center" style="">
-					<img src="http://bitcoinity.org/markets/image?span=24h&size=medium&currency=<?= $fiat ?>&exchange=coinbase" alt="bitcoin price chart"/>
+					<img src="http://bitcoinity.org/markets/image?span=24h&size=medium&currency=<?= $fiat ?>&exchange=bitstamp" alt="bitcoin price chart"/>
 				</div>
 				<div class="center" style="">
-					<img src="http://bitcoinity.org/markets/image?span=7d&size=medium&currency=<?= $fiat ?>&exchange=coinbase" alt="bitcoin price chart"/>
+					<img src="http://bitcoinity.org/markets/image?span=7d&size=medium&currency=<?= $fiat ?>&exchange=bitstamp" alt="bitcoin price chart"/>
 				</div>
 			</div>
 			<div class="tx">
