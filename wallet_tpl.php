@@ -63,7 +63,7 @@ if(isset($_REQUEST['autorefresh']) && $_REQUEST['autorefresh'] == "on")
 						echo "Invested: " . round($btcArr['original'], 2) . " " . $fiat . "<br />";
 						?>
 					</strong>
-					<strong style="color:<?= $color ?>;">
+					<strong style="color:<?= $color ?>;text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
 						<?php
 						echo $pl . ": " . round($btcArr['roi'], 2) . " " . $fiat . "<br />";
 						?>
