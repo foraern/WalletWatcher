@@ -2,9 +2,9 @@
 date_default_timezone_set("Europe/Dublin");
 $fiat = "EUR";
 $xpub = "";
-if(isset($_POST['xpub']) && $_POST['xpub']){
-	setcookie("xpub", $_POST['xpub'], time()+3600, '/');
-	$xpub=$_POST['xpub'];
+if(isset($_REQUEST['xpub']) && $_REQUEST['xpub']){
+	setcookie("xpub", $_REQUEST['xpub'], time()+3600, '/');
+	$xpub=$_REQUEST['xpub'];
 }
 elseif(isset($_COOKIE['xpub'])){
 	$xpub=$_COOKIE['xpub'];
