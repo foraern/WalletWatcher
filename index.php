@@ -24,7 +24,9 @@ if(is_array($wallet['txs'])){
 	foreach($wallet['txs'] as $key=>$transaction){
 		foreach($transaction['out'] as $subkey=>$output){
 			if($output['addr']==$xpub){
-				if($output['n']==0)$original+= makeRequest($fromBTC."?currency=".$fiat."&value=".abs($output['value'])."&time=".($transaction['time'] * 1000));
+				if($output['n']==0){
+					$original+= makeRequest($fromBTC."?currency=".$fiat."&value=".abs($output['value'])."&time=".($transaction['time'] * 1000));
+				}
 				$output['hash']=$transaction['hash'];
 				$output['time']=$transaction['time'];
 				$tx[]=$output;
